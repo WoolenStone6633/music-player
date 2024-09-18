@@ -2,8 +2,8 @@
 
 import LoginButton from "./ui/loginButton";
 import { usePathname, useSearchParams, useRouter } from "next/navigation"
-import { getTokens } from "@/auth";
-import { useEffect } from "react";
+// import { getTokens } from "@/auth";
+// import { useEffect } from "react";
 
 export default function Home() {
  const grantType = 'authorization_code'
