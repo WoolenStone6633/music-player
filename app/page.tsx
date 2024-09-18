@@ -10,17 +10,17 @@ export default function Home() {
  const redUri = 'http://localhost:3000/'
 
   const code = useSearchParams().get('code')
-  const pathname = usePathname()
-  const { replace } = useRouter()
-  const parms = new URLSearchParams
-  parms.set('grant_type', grantType)
-  code && parms.set('code', code)
-  parms.set('redirect_uri', redUri)
-  replace(`${pathname}?${parms.toString()}`)
+  // const pathname = usePathname()
+  // const { replace } = useRouter()
+  // const parms = new URLSearchParams
+  // parms.set('grant_type', grantType)
+  // code && parms.set('code', code)
+  // parms.set('redirect_uri', redUri)
+  // replace(`${pathname}?${parms.toString()}`)
 
-  useEffect(() => {
-    code && getTokens('')
-  }, [parms])
+  // useEffect(() => {
+  //   code && getTokens('')
+  // }, [parms])
 
   return (
     <main className="text-center mt-16">
