@@ -2,7 +2,9 @@ import { spotifyAuth, lucia } from "@/lib/auth";
 import { cookies } from "next/headers";
 import { OAuth2RequestError } from "arctic";
 import { generateIdFromEntropySize } from "lucia";
-import { NextRequest, NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
+
+const db = new PrismaClient
 
 export async function GET(request: Request): Promise<Response> {
 	const url = new URL(request.url);
@@ -17,16 +19,18 @@ export async function GET(request: Request): Promise<Response> {
 
 	try {
 		const tokens = await spotifyAuth.validateAuthorizationCode(code);
-    //Use the Spotify API to fetch the user
-		const spotifyUserResponse = await fetch("https://api.github.com/user", {
+		const spotifyUserResponse = await fetch("https://api.spotify.com/v1/me", {
 			headers: {
 				Authorization: `Bearer ${tokens.accessToken}`
 			}
 		});
 		const spotifyUser: SpotifyUser = await spotifyUserResponse.json();
 
-		// Replace this with your own DB client.
-		const existingUser = await db.table("user").where("github_id", "=", githubUser.id).get();
+    const existingUser = await db.user.findUnique({
+			where: {
+				id: spotifyUser.id
+			}
+		})
 
 		if (existingUser) {
 			const session = await lucia.createSession(existingUser.id, {});
@@ -42,12 +46,15 @@ export async function GET(request: Request): Promise<Response> {
 
 		const userId = generateIdFromEntropySize(10); // 16 characters long
 
-		// Replace this with your own DB client.
-		await db.table("user").insert({
-			id: userId,
-			github_id: githubUser.id,
-			username: githubUser.login
-		});
+		await db.user.create({
+			data: {
+				id: userId, 
+				spotify_id: spotifyUser.id,
+				display_name: spotifyUser.display_name,
+				href: spotifyUser.href,
+				uri: spotifyUser.uri,
+			}
+		})
 
 		const session = await lucia.createSession(userId, {});
 		const sessionCookie = lucia.createSessionCookie(session.id);
@@ -72,32 +79,9 @@ export async function GET(request: Request): Promise<Response> {
 	}
 }
 
-//Change this to be less and match database
 type SpotifyUser = {
-	country?: string;
-	display_name: string | null;
-	email?: string;
-	explicit_content: {
-		filter_enabled?: boolean;
-		filter_locked?: boolean;
-	};
-	external_urls: {
-		spotify: string;
-	};
-	followers: {
-		href: string | null;
-		total: number;
-	};
-	href: string;
 	id: string;
-	images: [
-		{
-			url: string;
-			height: number | null;
-			width: number | null;
-		}
-	];
-	product?: string;
-	type: string;
+	display_name: string;
+	href: string;
 	uri: string;
 };

@@ -15,8 +15,12 @@ datasource db {
 
 //Match this to the interface on the route page
 model User {
-  id       String    @id
-  sessions Session[]
+  id            String    @id
+  spotify_id    String    @unique
+  display_name  String
+	href          String
+	uri           String
+  sesstions     Session[]
 }
 
 model Session {
