@@ -13,8 +13,9 @@ export default function Home() {
     <main className="text-center mt-16">
       <p>Welcome to the Music PLayer!</p>
       <div className="flex justify-center gap-4">
-        <LoginButton/>
-        <button>Sign up</button>
+        {/* <LoginButton/> */}
+        <a href="/login/spotify">Sign in with Spotify</a>
+        {/* <button>Sign up</button> */}
       </div>
     </main>
   );
