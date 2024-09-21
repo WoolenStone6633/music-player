@@ -28,7 +28,7 @@ export async function GET(request: Request): Promise<Response> {
 
     const existingUser = await db.user.findUnique({
 			where: {
-				id: spotifyUser.id
+				spotify_id: spotifyUser.id
 			}
 		})
 
@@ -39,7 +39,7 @@ export async function GET(request: Request): Promise<Response> {
 			return new Response(null, {
 				status: 302,
 				headers: {
-					Location: "/"
+					Location: "/player"
 				}
 			});
 		}
@@ -62,7 +62,7 @@ export async function GET(request: Request): Promise<Response> {
 		return new Response(null, {
 			status: 302,
 			headers: {
-				Location: "/"
+				Location: "/player"
 			}
 		});
 	} catch (e) {
@@ -74,7 +74,7 @@ export async function GET(request: Request): Promise<Response> {
 			});
 		}
 		return new Response(null, {
-			status: 500 //Figure out why this error keeps occuring and fix it
+			status: 500
 		});
 	}
 }
