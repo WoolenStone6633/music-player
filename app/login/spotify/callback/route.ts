@@ -74,7 +74,7 @@ export async function GET(request: Request): Promise<Response> {
 			});
 		}
 		return new Response(null, {
-			status: 500 //Figure out why this error keeps occuring
+			status: 500 //Figure out why this error keeps occuring and fix it
 		});
 	}
 }
