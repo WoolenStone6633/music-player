@@ -1,10 +1,24 @@
-export default function Home() {
-  const grantType = 'authorization_code'
-  const redUri = 'http://localhost:3000/'
+import { Suspense } from "react";
+import ArtGraphic from "../ui/artGraphic"
+import SongCard from "../ui/songCard"
+import { getSongs } from "../lib/apiCalls";
 
+export default async function Page({searchParams}: {searchParams?: {query?: string, page?: string}}) {
+  const query = searchParams?.query
+  const songList = getSongs(query)
+  
   return (
     <main className="text-center mt-16">
-      <p>This is where I will display all the music things</p>
+      <Suspense>
+        {songList ? songList.map( song => {
+          <SongCard img='string' title='string' temp={song}/>
+        }): <></>}
+        {/* <p>{songList}</p> */}
+      </Suspense>
+      <div>
+        <ArtGraphic/>
+        <p>This is the title of the song</p>
+      </div>
     </main>
   );
 }
