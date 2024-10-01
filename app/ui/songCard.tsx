@@ -1,9 +1,17 @@
-export default function SongCard( {img, title}: {img: string, title: string} ) {
+export default function SongCard( {imgUrl, title, artist, songUri}: 
+  { imgUrl: string, 
+    title: string, 
+    artist: string[] | string, 
+    songUri: string} 
+) {
+
   return (
-    <div>
-      <p>{img}{title}</p>
-      <p>This is an image</p>
-      <p>This is where I will display all the music things</p>
+    <div className="flex mb-4 border-2 pr-2 rounded-2xl bg-gray-200" style={{ cursor: 'pointer' }}>
+      <img src={imgUrl}></img>
+      <div className="my-auto ml-2 text-left">
+        <p>{title}</p>
+        <p className="text-gray-500">{artist}</p>
+      </div>
     </div>
   )
 }

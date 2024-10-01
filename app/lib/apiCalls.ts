@@ -12,25 +12,26 @@ const spotifyApi = new SpotifyWebApi({
 
 export async function getSongs (query: string[] | string | undefined) {
   const refreshToken = cookies().get('RT')?.value
-  const accessToken = (await spotifyAuth.refreshAccessToken(refreshToken)).accessToken;
-  spotifyApi.setAccessToken(accessToken)
-
-  var songsArr: any = []
-
-  spotifyApi.searchTracks(`trask:${query}`)
-    .then((data: any) => {
-      data.body.tracks.items.map((track: any) => {
-        songsArr.push({
-          artist: track.artists.map((artist: any) => {
-            return artist.name
-          }),
-          title: track.name,
-          uri: track.uri,
-          albumUrl: track.album.images[track.album.images.length - 1].url
-        })
+  const accessToken = refreshToken ? (await spotifyAuth.refreshAccessToken(refreshToken)).accessToken : 'error'
+  console.log(accessToken)
+  if (accessToken !== 'error') {
+    spotifyApi.setAccessToken(accessToken)
+    
+    const resTracks = await spotifyApi.searchTracks(`trask:${query}`)
+    const trackList = resTracks.body.tracks.items.map((track: any) => {
+      return ({
+        artist: track.artists.map((artist: any, index: number) => {
+          return (index ? ', ' : '') + artist.name
+        }),
+        title: track.name,
+        uri: track.uri,
+        albumUrl: track.album.images[track.album.images.length - 1].url
       })
-    }).then( () => {
-      // console.log(songsArr)
-      return songsArr
     })
+
+    return trackList
+  } else {
+    return false
+  }
 }
+
