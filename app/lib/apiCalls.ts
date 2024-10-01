@@ -13,11 +13,11 @@ const spotifyApi = new SpotifyWebApi({
 export async function getSongs (query: string[] | string | undefined) {
   const refreshToken = cookies().get('RT')?.value
   const accessToken = refreshToken ? (await spotifyAuth.refreshAccessToken(refreshToken)).accessToken : 'error'
-  console.log(accessToken)
+
   if (accessToken !== 'error') {
     spotifyApi.setAccessToken(accessToken)
     
-    const resTracks = await spotifyApi.searchTracks(`trask:${query}`)
+    const resTracks = await spotifyApi.searchTracks(`trask:${query}`, {limit: 13})
     const trackList = resTracks.body.tracks.items.map((track: any) => {
       return ({
         artist: track.artists.map((artist: any, index: number) => {
@@ -34,4 +34,3 @@ export async function getSongs (query: string[] | string | undefined) {
     return false
   }
 }
-

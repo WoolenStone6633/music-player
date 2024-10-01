@@ -5,7 +5,7 @@ import { getSongs} from "../lib/apiCalls";
 
 export default async function Page({searchParams}: {searchParams?: {query?: string, page?: string}}) {
   const query = searchParams?.query
-  const songList = await getSongs(query)
+  const songList = query !== undefined ? await getSongs(query) : false
 
   return (
     <main className="flex">
@@ -13,7 +13,7 @@ export default async function Page({searchParams}: {searchParams?: {query?: stri
         <Suspense>
           {songList ? songList.map((song: song) => (
             <SongCard key={`${song.albumUrl}${song.title}`} imgUrl={song.albumUrl} title={song.title} artist={song.artist} songUri={song.uri}/>
-          )) : <p>Error loading songList</p> }
+          )) : <></> }
         </Suspense>
       </div>
       <div>
