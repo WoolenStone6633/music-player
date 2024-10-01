@@ -14,7 +14,7 @@ export const lucia = new Lucia(adapter, {
 	sessionCookie: {
 		expires: false,
 		attributes: {
-			secure: process.env.NODE_ENV === "development"
+			secure: process.env.NODE_ENV === "production"
 		}
 	},
 	getUserAttributes: (attributes) => {

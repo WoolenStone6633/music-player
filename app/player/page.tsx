@@ -6,13 +6,14 @@ import { getSongs } from "../lib/apiCalls";
 export default async function Page({searchParams}: {searchParams?: {query?: string, page?: string}}) {
   const query = searchParams?.query
   const songList = getSongs(query)
-  
+
   return (
     <main className="text-center mt-16">
       <Suspense>
-        {songList ? songList.map( song => {
-          <SongCard img='string' title='string' temp={song}/>
-        }): <></>}
+        {/* {songList ? songList.map( song => (
+          // <SongCard key={`${song.img}${song.title}`} img={song.img} title={song.title}/>
+          <SongCard img='img' title='title'/>
+        )): <>temp</>} */}
         {/* <p>{songList}</p> */}
       </Suspense>
       <div>

@@ -19,6 +19,10 @@ export async function GET(request: Request): Promise<Response> {
 
 	try {
 		const tokens = await spotifyAuth.validateAuthorizationCode(code);
+		cookies().set('RT', tokens.refreshToken, {
+			httpOnly: true,
+		})
+
 		const spotifyUserResponse = await fetch("https://api.spotify.com/v1/me", {
 			headers: {
 				Authorization: `Bearer ${tokens.accessToken}`
