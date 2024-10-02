@@ -34,3 +34,7 @@ export async function getSongs (query: string[] | string | undefined) {
     return false
   }
 }
+
+export async function getCurrentTrack(uri: string) {
+  return uri
+}
