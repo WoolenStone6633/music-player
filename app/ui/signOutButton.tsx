@@ -23,7 +23,7 @@ async function logout(): Promise<ActionResult> {
 
 	const sessionCookie = lucia.createBlankSessionCookie();
 	cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
-	cookies().delete('RT')
+	cookies().delete('jws')
 	cookies().delete('spotify_oauth_state')
 	return redirect("/");
 }

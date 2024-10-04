@@ -1,7 +1,7 @@
 'use server'
 
-import { cookies } from "next/headers";
-import { spotifyAuth } from "@/lib/auth";
+import { getAccessToken } from "./tokenCalls"
+
 const SpotifyWebApi = require('spotify-web-api-node')
 
 const spotifyApi = new SpotifyWebApi({
@@ -10,11 +10,12 @@ const spotifyApi = new SpotifyWebApi({
   redirectUri: process.env.REDIRECT_URI,
 })
 
-export async function getSongs (query: string[] | string | undefined) {
-  const refreshToken = cookies().get('RT')?.value
-  const accessToken = refreshToken ? (await spotifyAuth.refreshAccessToken(refreshToken)).accessToken : 'error'
+let currentTrack = ''
 
-  if (accessToken !== 'error') {
+export async function getSongs (query: string[] | string | undefined) {
+  const accessToken = getAccessToken()
+
+  if (accessToken) {
     spotifyApi.setAccessToken(accessToken)
     
     const resTracks = await spotifyApi.searchTracks(`trask:${query}`, {limit: 13})
@@ -35,6 +36,12 @@ export async function getSongs (query: string[] | string | undefined) {
   }
 }
 
-export async function getCurrentTrack(uri: string) {
-  return uri
+export async function getCurrentTrack() {
+  console.log(currentTrack)
+  return currentTrack
+}
+
+export async function setCurrentTrack(uri: string) {
+  console.log(currentTrack)
+  currentTrack = uri
 }
