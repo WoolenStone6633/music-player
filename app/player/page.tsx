@@ -1,11 +1,11 @@
 import { Suspense } from "react";
 import ArtGraphic from "../ui/artGraphic"
 import SongCard from "../ui/songCard"
-import { getCurrentTrack, getSongs} from "../lib/apiCalls";
+import { getSongs} from "../lib/apiCalls";
 import SongPlayer from "../ui/songPlayer";
 import { getAccessToken } from "../lib/tokenCalls";
 
-export default async function Page({searchParams}: {searchParams?: {query?: string, page?: string}}) {
+export default async function Page({searchParams}: {searchParams?: {query?: string, page?: string, id?: string}}) {
   const query = searchParams?.query
   const songList = query !== undefined ? await getSongs(query) : false
 
@@ -20,7 +20,7 @@ export default async function Page({searchParams}: {searchParams?: {query?: stri
       </div>
       <div>
         <ArtGraphic/>
-        <SongPlayer accessToken={await getAccessToken()} trackUri={await getCurrentTrack()}/>
+        <SongPlayer accessToken={await getAccessToken()} trackUri={searchParams?.id} />
       </div>
     </main>
   );

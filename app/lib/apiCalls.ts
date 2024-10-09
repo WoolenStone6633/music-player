@@ -10,8 +10,6 @@ const spotifyApi = new SpotifyWebApi({
   redirectUri: process.env.REDIRECT_URI,
 })
 
-let currentTrack = ''
-
 export async function getSongs (query: string[] | string | undefined) {
   const accessToken = getAccessToken()
 
@@ -34,14 +32,4 @@ export async function getSongs (query: string[] | string | undefined) {
   } else {
     return false
   }
-}
-
-export async function getCurrentTrack() {
-  console.log(currentTrack)
-  return currentTrack
-}
-
-export async function setCurrentTrack(uri: string) {
-  console.log(currentTrack)
-  currentTrack = uri
 }
