@@ -1,7 +1,6 @@
 'use client'
 
 import LoginButton from "./ui/loginButton";
-import { useSearchParams } from "next/navigation"
 
 export default function Home() {
   return (

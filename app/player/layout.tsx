@@ -11,7 +11,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
   return (
     <>
       <div className="flex justify-end">
-        <Search placeholder="search"/>
+        <Search placeholder="search song"/>
         <SignOutButton/>
       </div>
       <div className="flex-grow p-12">{children}</div>

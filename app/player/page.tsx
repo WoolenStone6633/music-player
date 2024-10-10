@@ -20,7 +20,7 @@ export default async function Page({searchParams}: {searchParams?: {query?: stri
       </div>
       <div>
         <ArtGraphic/>
-        <SongPlayer accessToken={await getAccessToken()} trackUri={searchParams?.id} />
+        <SongPlayer accessToken={await getAccessToken()} trackUri={searchParams?.id}/>
       </div>
     </main>
   );
