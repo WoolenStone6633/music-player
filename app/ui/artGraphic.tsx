@@ -16,20 +16,6 @@ export default  function ArtGraphic() {
   const bufferLength = useRef<number>(0)
   const dataArray = useRef<Uint8Array>()
 
-  // Gets permission to use audio from user and processes it
-  useEffect(() => {
-    navigator.mediaDevices.getDisplayMedia(displayMediaOptions)
-    .then((stream) => {
-      const audioCtx = new AudioContext()
-      const source = audioCtx.createMediaStreamSource(stream)
-      analyser.current = audioCtx.createAnalyser()
-      source.connect(analyser.current)
-      analyser.current.fftSize = 128
-      bufferLength.current = analyser.current.frequencyBinCount
-      dataArray.current = new Uint8Array(bufferLength.current)
-    })
-  }, [])
-
   // animation frame
   const draw = (
     ctx: CanvasRenderingContext2D, 
@@ -52,6 +38,20 @@ export default  function ArtGraphic() {
     }
   }
 
+  // Gets permission to use audio from user and processes it
+  useEffect(() => {
+    navigator.mediaDevices.getDisplayMedia(displayMediaOptions)
+    .then((stream) => {
+      const audioCtx = new AudioContext()
+      const source = audioCtx.createMediaStreamSource(stream)
+      analyser.current = audioCtx.createAnalyser()
+      source.connect(analyser.current)
+      analyser.current.fftSize = 128
+      bufferLength.current = analyser.current.frequencyBinCount
+      dataArray.current = new Uint8Array(bufferLength.current)
+    })
+  }, [])
+
   useEffect(() => {
     const canvas = canRef.current
     const ctx = canvas?.getContext('2d')
@@ -60,6 +60,7 @@ export default  function ArtGraphic() {
     if (canvas) {
       const animate = () => {
         if (!ctx) return
+        // console.log(analyser.current)
         const barWidth = canvas.width/bufferLength.current
         draw(ctx, canvas, analyser.current, bufferLength.current, dataArray.current, barWidth)
         animationFrameId = requestAnimationFrame(animate)
