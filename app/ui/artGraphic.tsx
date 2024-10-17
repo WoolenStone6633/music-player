@@ -72,6 +72,6 @@ export default  function ArtGraphic() {
   }, [draw])
 
   return (
-      <canvas ref={canRef} width={200} height={500}/>
+      <canvas ref={canRef} width={200} height={200}/>
   )
 }
