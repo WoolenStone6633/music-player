@@ -16,11 +16,6 @@ export default  function ArtGraphic() {
   const bufferLength = useRef<number>(0)
   const dataArray = useRef<Uint8Array>()
 
-  // let analyser: AnalyserNode
-  // let bufferLength: number
-  // let dataArray: Uint8Array
-  // let audioCtx: AudioContext
-
   // Gets permission to use audio from user and processes it
   useEffect(() => {
     navigator.mediaDevices.getDisplayMedia(displayMediaOptions)
