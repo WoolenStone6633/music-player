@@ -1,24 +1,17 @@
 'use client'
 
-import { useEffect, useRef, useState } from "react";
-import StreamOptionButton from "./streamOptionButton";
+import { useEffect, useRef } from "react"
 
-export default  function ArtGraphic() {
-  const displayMediaOptions = {
-    video: true,
-    audio: true,
-    preferCurrentTab: true,
-    surfaceSwitching: 'exclude',
-    systemAudio: "exclude",
-  }
+type props = {
+  analyser: AnalyserNode | undefined, 
+  bufferLength: number,
+  dataArray: Uint8Array | undefined,
+  stop: boolean,
+  audioStream?: MediaStream,
+}
 
-  const [startStream, setStartStream] = useState(true)
-  const streamOptionRef = useRef<HTMLButtonElement>(null)
+export default  function ArtGraphic({analyser, bufferLength, dataArray, stop, audioStream}: props) {
   const canRef = useRef<HTMLCanvasElement>(null)
-  const audioStream = useRef<MediaStream>()
-  const analyser = useRef<AnalyserNode>()
-  const bufferLength = useRef<number>(0)
-  const dataArray = useRef<Uint8Array>()
 
   // animation frame
   const draw = (
@@ -42,29 +35,6 @@ export default  function ArtGraphic() {
     }
   }
 
-  // Gets permission to use audio from user and processes it
-  useEffect(() => {
-    if (startStream) {
-      navigator.mediaDevices.getDisplayMedia(displayMediaOptions)
-      .then((stream) => {
-        audioStream.current = stream
-        const audioCtx = new AudioContext()
-        const source = audioCtx.createMediaStreamSource(stream)
-        analyser.current = audioCtx.createAnalyser()
-        source.connect(analyser.current)
-        analyser.current.fftSize = 128
-        bufferLength.current = analyser.current.frequencyBinCount
-        dataArray.current = new Uint8Array(bufferLength.current)
-      })
-      .catch((err) => { //produces and error when the promise fails
-        if (err instanceof DOMException) {
-          console.log('There was an error getting the media stream')
-          setStartStream(false)
-        }
-      })
-    }
-  }, [startStream])
-
   useEffect(() => {
     const canvas = canRef.current
     const ctx = canvas?.getContext('2d')
@@ -73,16 +43,13 @@ export default  function ArtGraphic() {
     if (canvas) {
       const animate = () => {
         if (!ctx) return
-        console.log(audioStream.current?.active)
-        const barWidth = canvas.width/bufferLength.current
-        draw(ctx, canvas, analyser.current, bufferLength.current, dataArray.current, barWidth)
-        if ((audioStream.current?.active || !audioStream.current) && startStream)
+        console.log(audioStream?.active)
+        const barWidth = canvas.width/bufferLength
+        draw(ctx, canvas, analyser, bufferLength, dataArray, barWidth)
+        if (!stop)
           animationFrameId = requestAnimationFrame(animate)
-        else {
+        else
           ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-          audioStream.current = undefined
-          setStartStream(false)
-        }
       }
       animate()
     }
@@ -90,11 +57,16 @@ export default  function ArtGraphic() {
     return () => cancelAnimationFrame(animationFrameId)
   }, [draw])
 
-  return (
-      <>
-        <canvas ref={canRef} width={200} height={500}/>
-        <StreamOptionButton startStream={startStream} ref={streamOptionRef} setStartStream={setStartStream}/>
-        {/* // {!startStream ? <button ref={streamOptionRef} onClick={() => setStartStream(true)}>Start Stream Again?</button> : null} */}
-      </>
-  )
+  return <canvas ref={canRef} width={200} height={500}/>
 }
+
+
+
+
+// if ((audioStream.current?.active || !audioStream.current) && startStream)
+//   animationFrameId = requestAnimationFrame(animate)
+// else {
+//   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+//   audioStream.current = undefined
+//   setStartStream(false)
+// }

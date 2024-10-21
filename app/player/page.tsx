@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import ArtGraphic from "../ui/artGraphic"
+import ArtGraphic from "../ui/streamProcessing"
 import SongCard from "../ui/songCard"
 import { getSongs} from "../lib/apiCalls";
 import SongPlayer from "../ui/songPlayer";
