@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from "react";
+import StreamOptionButton from "./streamOptionButton";
 
 export default  function ArtGraphic() {
   const displayMediaOptions = {
@@ -9,7 +10,7 @@ export default  function ArtGraphic() {
     preferCurrentTab: true,
     surfaceSwitching: 'exclude',
     systemAudio: "exclude",
-  };
+  }
 
   const [startStream, setStartStream] = useState(true)
   const streamOptionRef = useRef<HTMLButtonElement>(null)
@@ -92,7 +93,8 @@ export default  function ArtGraphic() {
   return (
       <>
         <canvas ref={canRef} width={200} height={500}/>
-        {!startStream ? <button ref={streamOptionRef} onClick={() => setStartStream(true)}>Start Stream Again?</button> : null}
+        <StreamOptionButton startStream={startStream} ref={streamOptionRef} setStartStream={setStartStream}/>
+        {/* // {!startStream ? <button ref={streamOptionRef} onClick={() => setStartStream(true)}>Start Stream Again?</button> : null} */}
       </>
   )
 }
