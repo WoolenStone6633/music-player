@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import ArtGraphic from "../ui/streamProcessing"
+import StreamProcessing from "../ui/streamProcessing"
 import SongCard from "../ui/songCard"
 import { getSongs} from "../lib/apiCalls";
 import SongPlayer from "../ui/songPlayer";
@@ -19,7 +19,7 @@ export default async function Page({searchParams}: {searchParams?: {query?: stri
         </Suspense>
       </div>
       <div>
-        <ArtGraphic/>
+        <StreamProcessing/>
         <SongPlayer accessToken={await getAccessToken()} trackUri={searchParams?.id}/>
       </div>
     </main>

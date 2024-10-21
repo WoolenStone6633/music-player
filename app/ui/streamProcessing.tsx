@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef, useState } from "react";
-import StreamOptionButton from "./streamOptionButton";
 import ArtGraphic from "./artGraphic";
 
 export default  function streamProcessing() {
@@ -13,19 +12,32 @@ export default  function streamProcessing() {
     systemAudio: "exclude",
   }
 
-  const [startStream, setStartStream] = useState(true)
+  const [sharingStream, setSharingStream] = useState(false)
   const streamOptionRef = useRef<HTMLButtonElement>(null)
-  const audioStream = useRef<MediaStream>()
+  const [audioStream, setAudioStream] = useState<MediaStream>()
   const analyser = useRef<AnalyserNode>()
   const bufferLength = useRef<number>(0)
   const dataArray = useRef<Uint8Array>()
 
+  const startStream = () => {
+    setSharingStream(true)
+  }
+
+  const stopStream = () => {
+    console.log('stopStream ran')
+    if (audioStream) {
+      let tracks = audioStream?.getTracks()
+      tracks.forEach((track) => track.stop());
+      setSharingStream(false)
+    }
+  }
+
   // Gets permission to use audio from user and processes it
   useEffect(() => {
-    if (startStream) {
+    if (sharingStream) {
       navigator.mediaDevices.getDisplayMedia(displayMediaOptions)
       .then((stream) => {
-        audioStream.current = stream
+        setAudioStream(stream)
         const audioCtx = new AudioContext()
         const source = audioCtx.createMediaStreamSource(stream)
         analyser.current = audioCtx.createAnalyser()
@@ -37,26 +49,20 @@ export default  function streamProcessing() {
       .catch((err) => { //produces and error when the promise fails
         if (err instanceof DOMException) {
           console.log('There was an error getting the media stream')
-          setStartStream(false)
+          setSharingStream(false)
         }
       })
+    } else{
+      setAudioStream(undefined)
     }
-  }, [startStream])
-
-  useEffect(() => {
-    // if ((!audioStream.current?.active || audioStream.current) && !startStream) {
-    //   audioStream.current = undefined
-    //   setStartStream(false)
-    // }
-    if (audioStream.current?.active !== undefined)
-      setStartStream(audioStream.current?.active)
-  }, [audioStream.current?.active])
+  }, [sharingStream])
 
   return (
       <>
-        <ArtGraphic analyser={analyser.current} bufferLength={bufferLength.current} dataArray={dataArray.current} stop={!startStream} audioStream={audioStream.current}/>
-        {/* <StreamOptionButton startStream={startStream} ref={streamOptionRef} setStartStream={setStartStream}/> */}
-        {!startStream ? <button ref={streamOptionRef} onClick={() => setStartStream(true)}>Start Stream Again?</button> : null}
+        <ArtGraphic analyser={analyser.current} bufferLength={bufferLength.current} dataArray={dataArray.current} audioStream={audioStream} stopStream={stopStream}/>
+        {!sharingStream ? 
+        <button ref={streamOptionRef} onClick={() => startStream()}>Start Streaming</button> 
+        : <button ref={streamOptionRef} onClick={() => stopStream()}>Stop Streaming</button> }
       </>
   )
 }

@@ -3,14 +3,14 @@
 import { useEffect, useRef } from "react"
 
 type props = {
-  analyser: AnalyserNode | undefined, 
+  analyser?: AnalyserNode, 
   bufferLength: number,
-  dataArray: Uint8Array | undefined,
-  stop: boolean,
-  audioStream?: MediaStream,
+  dataArray?: Uint8Array,
+  audioStream?:MediaStream, 
+  stopStream(): void,
 }
 
-export default  function ArtGraphic({analyser, bufferLength, dataArray, stop, audioStream}: props) {
+export default  function ArtGraphic({analyser, bufferLength, dataArray, audioStream, stopStream}: props) {
   const canRef = useRef<HTMLCanvasElement>(null)
 
   // animation frame
@@ -43,13 +43,14 @@ export default  function ArtGraphic({analyser, bufferLength, dataArray, stop, au
     if (canvas) {
       const animate = () => {
         if (!ctx) return
-        console.log(audioStream?.active)
         const barWidth = canvas.width/bufferLength
         draw(ctx, canvas, analyser, bufferLength, dataArray, barWidth)
-        if (!stop)
+        if (audioStream?.active)
           animationFrameId = requestAnimationFrame(animate)
-        else
-          ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+        else {
+          ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+          stopStream()
+        }
       }
       animate()
     }
