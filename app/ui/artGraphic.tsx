@@ -60,14 +60,3 @@ export default  function ArtGraphic({analyser, bufferLength, dataArray, audioStr
 
   return <canvas ref={canRef} width={200} height={500}/>
 }
-
-
-
-
-// if ((audioStream.current?.active || !audioStream.current) && startStream)
-//   animationFrameId = requestAnimationFrame(animate)
-// else {
-//   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-//   audioStream.current = undefined
-//   setStartStream(false)
-// }
