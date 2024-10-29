@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import ArtGraphic from "./artGraphic";
 
-export default  function streamProcessing() {
+export default  function streamProcesser() {
   const displayMediaOptions = {
     video: true,
     audio: true,
@@ -13,8 +13,8 @@ export default  function streamProcessing() {
   }
 
   const [sharingStream, setSharingStream] = useState(false)
-  const streamOptionRef = useRef<HTMLButtonElement>(null)
   const [audioStream, setAudioStream] = useState<MediaStream>()
+  const streamOptionRef = useRef<HTMLButtonElement>(null)
   const analyser = useRef<AnalyserNode>()
   const bufferLength = useRef<number>(0)
   const dataArray = useRef<Uint8Array>()
@@ -24,7 +24,6 @@ export default  function streamProcessing() {
   }
 
   const stopStream = () => {
-    console.log('stopStream ran')
     if (audioStream) {
       let tracks = audioStream?.getTracks()
       tracks.forEach((track) => track.stop());

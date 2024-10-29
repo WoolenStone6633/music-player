@@ -58,5 +58,5 @@ export default  function ArtGraphic({analyser, bufferLength, dataArray, audioStr
     return () => cancelAnimationFrame(animationFrameId)
   }, [draw])
 
-  return <canvas ref={canRef} width={200} height={500}/>
+  return <canvas ref={canRef} width={300} height={500}/>
 }

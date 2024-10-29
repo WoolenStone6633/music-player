@@ -10,7 +10,7 @@ const spotifyApi = new SpotifyWebApi({
   redirectUri: process.env.REDIRECT_URI,
 })
 
-export async function getSongs (query: string[] | string | undefined) {
+export async function getSongs (query?: string[] | string) {
   const accessToken = getAccessToken()
 
   if (accessToken) {
@@ -32,4 +32,8 @@ export async function getSongs (query: string[] | string | undefined) {
   } else {
     return false
   }
+}
+
+export async function setSpotifyAccessToken (accessToken: string) {
+  spotifyApi.setAccessToken(accessToken)
 }

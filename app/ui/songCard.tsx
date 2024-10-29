@@ -2,12 +2,14 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
-export default function SongCard( {imgUrl, title, artist, songUri}: 
-  { imgUrl: string, 
-    title: string, 
-    artist: string[] | string, 
-    songUri: string} 
-) {
+type props = {
+  imgUrl: string, 
+  title: string, 
+  artist: string[] | string, 
+  songUri: string,
+}
+
+export default function SongCard( {imgUrl, title, artist, songUri}: props) {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const router = useRouter()

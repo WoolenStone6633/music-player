@@ -5,10 +5,8 @@ export function getAccessToken () {
   try {
     return cookies().get('jws')?.value.split(',')[0]
   } catch (e) {
-    return new Response(null, {
-			status: 500,
-      statusText: 'unable to get access token'
-		});
+    console.log('there was an error when trying to get the access token related to: ' + e)
+    return undefined
   }
 }
 

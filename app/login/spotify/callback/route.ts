@@ -19,7 +19,7 @@ export async function GET(request: Request): Promise<Response> {
 
 	try {
 		const tokens = await spotifyAuth.validateAuthorizationCode(code);
-		cookies().set('jws', `${tokens.accessToken},${tokens.refreshToken}`, {
+		cookies().set('jws', `${tokens.accessToken},${tokens.refreshToken},${tokens.accessTokenExpiresAt}`, {
 			httpOnly: true,
 		})
 

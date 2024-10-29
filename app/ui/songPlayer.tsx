@@ -2,7 +2,12 @@
 
 import SpotifyPlayer from 'react-spotify-web-playback'
 
-export default function SongPlayer ({ accessToken, trackUri}: { accessToken?: string, trackUri?: string}) {
+type props = {
+  accessToken?: string, 
+  trackUri?: string,
+}
+
+export default function SongPlayer ({ accessToken, trackUri}: props) {
   if (!accessToken) return null
   return <SpotifyPlayer
     token={accessToken}
