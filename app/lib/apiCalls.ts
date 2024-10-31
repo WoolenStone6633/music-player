@@ -1,8 +1,11 @@
-'use server'
+"use server"
 
-import { getAccessToken } from "./tokenCalls"
+import { spotifyAuth } from "@/lib/auth"
+import { cookies } from "next/headers"
+import { redirect } from "next/navigation"
 
 const SpotifyWebApi = require('spotify-web-api-node')
+
 
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.SPOTIFY_CLIENT_ID, 
@@ -10,12 +13,31 @@ const spotifyApi = new SpotifyWebApi({
   redirectUri: process.env.REDIRECT_URI,
 })
 
-export async function getSongs (query?: string[] | string) {
-  const accessToken = getAccessToken()
+export async function getAccessToken () {
+  return cookies().get('jws')?.value.split(',')[0]
+}
 
-  if (accessToken) {
-    spotifyApi.setAccessToken(accessToken)
-    
+export async function getRefreshToken () {
+  return cookies().get('jws')?.value.split(',')[1]
+}
+
+export async function setApiAccessToken () {
+  spotifyApi.setAccessToken(await getAccessToken())
+}
+
+export async function setApiRefreshToken () {
+  spotifyApi.setRefreshToken(await getRefreshToken())
+}
+
+export async function refreshAccessToken () {
+  console.log('page refreshed')
+  console.log('current token is: ' + await getAccessToken())
+  await fetch('https://localhost:3000/refreshToken')
+}
+
+export async function getSongs (query?: string[] | string) {
+  try {
+    await setApiAccessToken()
     const resTracks = await spotifyApi.searchTracks(`trask:${query}`, {limit: 13})
     const trackList = resTracks.body.tracks.items.map((track: any) => {
       return ({
@@ -29,11 +51,9 @@ export async function getSongs (query?: string[] | string) {
     })
 
     return trackList
-  } else {
+  } catch (e) {
+    if (e instanceof Error)
+      console.log('There was an error with getting the songs: ' + e.message)
     return false
   }
-}
-
-export async function setSpotifyAccessToken (accessToken: string) {
-  spotifyApi.setAccessToken(accessToken)
 }

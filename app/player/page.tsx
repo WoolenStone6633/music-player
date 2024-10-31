@@ -1,14 +1,12 @@
 import { Suspense } from "react";
 import StreamProcesser from "../ui/streamProcesser"
 import SongCard from "../ui/songCard"
-import { getSongs} from "../lib/apiCalls";
+import { getAccessToken, getSongs, refreshAccessToken} from "../lib/apiCalls";
 import SongPlayer from "../ui/songPlayer";
-import { getAccessToken, refreshAccessToken } from "../lib/tokenCalls";
 
 export default async function Page({searchParams}: {searchParams?: {query?: string, page?: string, id?: string}}) {
   const query = searchParams?.query
   const songList = query !== undefined ? await getSongs(query) : false
-  refreshAccessToken()
 
   return (
     <main className="flex">
@@ -21,7 +19,7 @@ export default async function Page({searchParams}: {searchParams?: {query?: stri
       </div>
       <div>
         <StreamProcesser/>
-        <SongPlayer accessToken={getAccessToken()} trackUri={searchParams?.id}/>
+        <SongPlayer accessToken={await getAccessToken()} trackUri={searchParams?.id}/>
       </div>
     </main>
   );
