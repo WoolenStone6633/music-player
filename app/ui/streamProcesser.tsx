@@ -35,7 +35,6 @@ export default  function streamProcesser() {
 
   // Gets permission to use audio from user and processes it
   useEffect(() => {
-    // refreshAccessToken()
     if (sharingStream) {
       navigator.mediaDevices.getDisplayMedia(displayMediaOptions)
       .then((stream) => {

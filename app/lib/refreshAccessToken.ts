@@ -1,14 +1,16 @@
 'use client'
 
+import { usePathname } from "next/navigation"
 import { getRefreshToken, refreshApiAccessToken } from "./apiCalls"
 import { SpotifyTokens } from "arctic"
 
 export default function refreshAccessToken () {
+  const urlBase = usePathname()
   getRefreshToken().then((refreshToken?: string) => {
     if (refreshToken) {
       refreshApiAccessToken(refreshToken).then((tokens: SpotifyTokens) => {
         if (tokens.refreshToken) {
-          fetch('https://localhost:3000/refreshToken', {
+          fetch(`${urlBase}/refreshToken`, {
             method: 'POST',
             body: JSON.stringify({
               tokens: tokens,
@@ -20,7 +22,7 @@ export default function refreshAccessToken () {
             console.log('Error posting refresh token to server')
           })
         } else {
-          fetch('https://localhost:3000/refreshToken', {
+          fetch(`${urlBase}/refreshToken`, {
             method: 'POST',
             body: JSON.stringify({
               accessToken: tokens.accessToken,
