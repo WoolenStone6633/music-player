@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server"
 import { cookies } from "next/headers"
 
-// Does not set the cookies on the client side
+// sets the cookeis on the client side
 export async function POST(req: NextRequest) {
   const body = await req.json()
   try {
