@@ -12,6 +12,7 @@ type props = {
 export default function SongPlayer ({ accessToken, trackUri}: props) {
   if (!accessToken) return null
 
+  // refreshes the spotify access token
   useEffect(() => {
     refreshAccessToken()
   }, [trackUri])
