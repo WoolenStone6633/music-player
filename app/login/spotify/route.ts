@@ -10,7 +10,6 @@ export async function GET(): Promise<Response> {
     }
   )
 
-  //updated 
   cookies().set('spotify_oauth_state', state, {
     path: "/",
 		secure: process.env.NODE_ENV === "production",
