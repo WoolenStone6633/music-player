@@ -28,40 +28,8 @@ export async function setApiRefreshToken () {
   spotifyApi.setRefreshToken(await getRefreshToken())
 }
 
-export async function refreshAccessToken () {
-  const refreshToken = await getRefreshToken()
-  try {
-    if (refreshToken) {
-      const tokens = await spotifyAuth.refreshAccessToken(refreshToken)
-      if (tokens.refreshToken) {
-        await fetch('https://localhost:3000/refreshToken', {
-          method: 'POST',
-          body: JSON.stringify({
-            tokens: tokens,
-          }),
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        })
-      } else {
-        await fetch('https://localhost:3000/refreshToken', {
-          method: 'POST',
-          body: JSON.stringify({
-            accessToken: tokens.accessToken,
-            refreshToken: refreshToken,
-            accessTokenExpiresAt: tokens.accessTokenExpiresAt
-          }),
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        })
-      }
-    } else
-      throw new Error('refresh Token is undefined')
-  } catch (e) {
-    if (e instanceof Error)
-      console.log('There was an error while trying to refresh the access token: ' + e.message)
-  }
+export async function refreshApiAccessToken (refreshToken: string) {
+  return await spotifyAuth.refreshAccessToken(refreshToken)
 }
 
 export async function getSongs (query?: string[] | string) {

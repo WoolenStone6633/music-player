@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import ArtGraphic from "./artGraphic";
-import { refreshAccessToken } from "../lib/apiCalls";
+// import { getAccessToken, getRefreshToken, refreshAccessToken } from "../lib/apiCalls";
+import refreshAccessToken from "../lib/refreshAccessToken";
 
 export default  function streamProcesser() {
   const displayMediaOptions = {
