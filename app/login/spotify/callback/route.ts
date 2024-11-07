@@ -21,6 +21,7 @@ export async function GET(request: Request): Promise<Response> {
 		const tokens = await spotifyAuth.validateAuthorizationCode(code);
 		cookies().set('jws', `${tokens.accessToken},${tokens.refreshToken}`, {
 			httpOnly: true,
+			maxAge: 60 * 10,
 		})
 
 		const spotifyUserResponse = await fetch("https://api.spotify.com/v1/me", {

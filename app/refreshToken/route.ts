@@ -7,6 +7,7 @@ export async function POST(req: NextRequest) {
   try {
     cookies().set('jws', `${body.accessToken},${body.refreshToken}`, {
       httpOnly: true,
+      maxAge: 60 * 10,
     })
   } catch (e) {
     if (e instanceof Error)
