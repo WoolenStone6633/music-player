@@ -18,5 +18,7 @@ export async function GET(): Promise<Response> {
 		sameSite: "lax"
   })
 
+  console.log(url)
+
 	return Response.redirect(url);
 }
