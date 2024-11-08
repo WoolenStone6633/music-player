@@ -3,6 +3,7 @@ import { spotifyAuth } from "@/lib/auth";
 import { cookies } from "next/headers";
 
 export async function GET(): Promise<Response> {
+  console.log('first route good')
 	const state = generateState();
 	const url = await spotifyAuth.createAuthorizationURL(
     state, {
