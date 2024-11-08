@@ -3,7 +3,6 @@ import { spotifyAuth } from "@/lib/auth";
 import { cookies } from "next/headers";
 
 export async function GET(): Promise<Response> {
-  console.log('first route good')
 	const state = generateState();
 	const url = await spotifyAuth.createAuthorizationURL(
     state, {
@@ -18,6 +17,8 @@ export async function GET(): Promise<Response> {
 		maxAge: 60 * 10,
 		sameSite: "lax"
   })
+
+  console.log(url)
 
 	return Response.redirect(url);
 }
