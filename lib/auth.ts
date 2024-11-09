@@ -1,4 +1,4 @@
-import { Lucia } from "lucia";
+import { Lucia, TimeSpan } from "lucia";
 import { Spotify } from "arctic";
 import { cookies } from "next/headers";
 import { cache } from "react";
@@ -11,8 +11,8 @@ const client = new PrismaClient()
 const adapter = new PrismaAdapter(client.session, client.user)
 
 export const lucia = new Lucia(adapter, {
+	sessionExpiresIn: new TimeSpan(5, 'h'),
 	sessionCookie: {
-		expires: false,
 		attributes: {
 			secure: process.env.NODE_ENV === "production"
 		}
