@@ -14,7 +14,10 @@ export default function SongPlayer ({ accessToken, trackUri}: props) {
 
   // refreshes the spotify access token
   useEffect(() => {
-    refreshAccessToken()
+    const baseUrl = window.location.origin
+    if (baseUrl) {
+      refreshAccessToken(baseUrl)
+    }
   }, [trackUri])
 
   return <SpotifyPlayer
