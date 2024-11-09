@@ -34,8 +34,8 @@ export default  function streamProcesser() {
   // Gets permission to use audio from user and processes it
   useEffect(() => {
     if (sharingStream) {
-      navigator.mediaDevices.getUserMedia({audio: true})
-      // navigator.mediaDevices.getDisplayMedia(displayMediaOptions)
+      // navigator.mediaDevices.getUserMedia({audio: true})
+      navigator.mediaDevices.getDisplayMedia(displayMediaOptions)
       .then((stream) => {
         setAudioStream(stream)
         const audioCtx = new AudioContext()
