@@ -1,35 +1,34 @@
-import { spotifyAuth, lucia } from "@/lib/auth";
+import { spotifyAuth } from "@/lib/oauth";
 import { cookies } from "next/headers";
 import { OAuth2RequestError } from "arctic";
-import { generateIdFromEntropySize } from "lucia";
 import { PrismaClient } from "@prisma/client";
+import { createSession, generateSessionToken, setSessionTokenCookie } from "@/lib/session";
+import { setSpotifyTokens } from "@/app/lib/apiCalls";
 
 const db = new PrismaClient
 
 export async function GET(request: Request): Promise<Response> {
-	const url = new URL(request.url);
-	const code = url.searchParams.get("code");
-	const state = url.searchParams.get("state");
-	const storedState = cookies().get("spotify_oauth_state")?.value ?? null;
+	const url = new URL(request.url)
+	const code = url.searchParams.get("code")
+	const state = url.searchParams.get("state")
+	const storedState = cookies().get("spotify_oauth_state")?.value ?? null
 	if (!code || !state || !storedState || state !== storedState) {
 		return new Response(null, {
 			status: 400
-		});
+		})
 	}
 
 	try {
-		const tokens = await spotifyAuth.validateAuthorizationCode(code);
-		cookies().set('jws', `${tokens.accessToken},${tokens.refreshToken}`, {
-			httpOnly: true,
-			maxAge: 60 * 10,
-		})
-
+		const tokens = await spotifyAuth.validateAuthorizationCode(code)
+		setSpotifyTokens(tokens.accessToken, tokens.refreshToken)
+		
 		const spotifyUserResponse = await fetch("https://api.spotify.com/v1/me", {
 			headers: {
 				Authorization: `Bearer ${tokens.accessToken}`
 			}
-		});
+		})
 		const spotifyUser: SpotifyUser = await spotifyUserResponse.json();
+		const spotifyUserId = spotifyUser.id
 
     const existingUser = await db.user.findUnique({
 			where: {
@@ -38,22 +37,20 @@ export async function GET(request: Request): Promise<Response> {
 		})
 
 		if (existingUser) {
-			const session = await lucia.createSession(existingUser.id, {});
-			const sessionCookie = lucia.createSessionCookie(session.id);
-			cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+			const sessionToken = generateSessionToken()
+			const session = await createSession(sessionToken, existingUser.id)
+			await setSessionTokenCookie(sessionToken, session.expiresAt)
 			return new Response(null, {
 				status: 302,
 				headers: {
 					Location: "/player"
 				}
-			});
+			})
 		}
 
-		const userId = generateIdFromEntropySize(10); // 16 characters long
-
-		await db.user.create({
+		const user = await db.user.create({
 			data: {
-				id: userId, 
+				id: spotifyUserId, 
 				spotify_id: spotifyUser.id,
 				display_name: spotifyUser.display_name,
 				href: spotifyUser.href,
@@ -61,15 +58,15 @@ export async function GET(request: Request): Promise<Response> {
 			}
 		})
 
-		const session = await lucia.createSession(userId, {});
-		const sessionCookie = lucia.createSessionCookie(session.id);
-		cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+		const sessionToken = generateSessionToken()
+		const session = await createSession(sessionToken, user.id)
+		await setSessionTokenCookie(sessionToken, session.expiresAt)
 		return new Response(null, {
 			status: 302,
 			headers: {
 				Location: "/player"
 			}
-		});
+		})
 	} catch (e) {
 		// the specific error message depends on the provider
 		if (e instanceof OAuth2RequestError) {
@@ -77,12 +74,12 @@ export async function GET(request: Request): Promise<Response> {
 			console.log(e)
 			return new Response(null, {
 				status: 400
-			});
+			})
 		}
 		console.log(e)
 		return new Response(null, {
 			status: 500
-		});
+		})
 	}
 }
 
@@ -91,4 +88,4 @@ type SpotifyUser = {
 	display_name: string;
 	href: string;
 	uri: string;
-};
+}

@@ -1,10 +1,10 @@
 'use client'
 
-import { getRefreshToken, refreshApiAccessToken } from "./apiCalls"
+import { getSpotifyRefreshToken, refreshApiAccessToken } from "./apiCalls"
 import { SpotifyTokens } from "arctic"
 
 export default function refreshAccessToken (baseUrl: string) {
-  getRefreshToken().then((refreshToken?: string) => {
+  getSpotifyRefreshToken().then((refreshToken?: string) => {
     if (refreshToken) {
       refreshApiAccessToken(refreshToken).then((tokens: SpotifyTokens) => {
         if (tokens.refreshToken) {

@@ -1,5 +1,5 @@
 import { generateState } from "arctic";
-import { spotifyAuth } from "@/lib/auth";
+import { spotifyAuth } from "@/lib/oauth";
 import { cookies } from "next/headers";
 
 export async function GET(): Promise<Response> {
