@@ -32,6 +32,7 @@ export async function refreshApiAccessToken (refreshToken: string) {
   return await spotifyAuth.refreshAccessToken(refreshToken)
 }
 
+// requests songs form the spotify api based on the query
 export async function getSongs (query?: string[] | string) {
   try {
     await setApiAccessToken()

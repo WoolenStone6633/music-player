@@ -1,5 +1,9 @@
-export default function LoginButton() {
+type props = {
+  text: string, 
+}
+
+export default function LoginButton({text}: props) {
   return (
-    <a href="/login/spotify">Sign in with Spotify</a>
+    <a href="/login/spotify">{text}</a>
   );
 }

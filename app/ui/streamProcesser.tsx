@@ -19,10 +19,12 @@ export default  function streamProcesser() {
   const bufferLength = useRef<number>(0)
   const dataArray = useRef<Uint8Array>()
 
+  // starts sharing to get the stream
   const startStream = () => {
     setSharingStream(true)
   }
 
+  // stops the audio stream from being shared
   const stopStream = () => {
     if (audioStream) {
       let tracks = audioStream?.getTracks()
@@ -31,10 +33,9 @@ export default  function streamProcesser() {
     }
   }
 
-  // Gets permission to use audio from user and processes it
+  // gets permission to use audio from user and processes it
   useEffect(() => {
     if (sharingStream) {
-      // navigator.mediaDevices.getUserMedia({audio: true})
       navigator.mediaDevices.getDisplayMedia(displayMediaOptions)
       .then((stream) => {
         setAudioStream(stream)
