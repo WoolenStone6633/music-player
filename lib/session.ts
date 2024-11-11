@@ -14,16 +14,32 @@ export function generateSessionToken(): string {
 }
 
 export async function createSession(token: string, userId: string): Promise<Session> {
-  const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-	const session: Session = {
-		id: sessionId,
-		userId,
-		expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
-	};
-	await prisma.session.create({
-		data: session
-	});
-	return session;
+    const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
+    const session: Session = {
+      id: sessionId,
+      userId,
+      expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
+    };
+
+    const prevSessions = await prisma.session.findMany({
+      where: {
+        userId: userId
+      }
+    })
+
+    if (prevSessions) {
+      await prisma.session.deleteMany({
+        where: {
+          userId: userId
+        }
+      })
+    }
+
+    await prisma.session.create({
+      data: session
+    });
+    return session;
+
 }
 
 export async function validateSessionToken(token: string): Promise<SessionValidationResult> {
