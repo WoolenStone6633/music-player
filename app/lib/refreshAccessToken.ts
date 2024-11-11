@@ -1,12 +1,12 @@
 'use client'
 
-import { getSpotifyRefreshToken, refreshApiAccessToken } from "./apiCalls"
+import { getSpotifyRefreshToken, refreshSpotifyAccessToken } from "./spotifyCalls"
 import { SpotifyTokens } from "arctic"
 
 export default function refreshAccessToken (baseUrl: string) {
-  getSpotifyRefreshToken().then((refreshToken?: string) => {
+  getSpotifyRefreshToken().then((refreshToken?: string | null) => {
     if (refreshToken) {
-      refreshApiAccessToken(refreshToken).then((tokens: SpotifyTokens) => {
+      refreshSpotifyAccessToken(refreshToken).then((tokens: SpotifyTokens) => {
         if (tokens.refreshToken) {
           fetch(`${baseUrl}/refreshToken`, {
             method: 'POST',
@@ -39,6 +39,6 @@ export default function refreshAccessToken (baseUrl: string) {
       })
     }
     else
-      throw Error('refresh token is undefined')
+      throw Error('Token has expired')
   })
 }

@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { OAuth2RequestError } from "arctic";
 import { PrismaClient } from "@prisma/client";
 import { createSession, generateSessionToken, setSessionTokenCookie } from "@/lib/session";
-import { setSpotifyTokens } from "@/app/lib/apiCalls";
+import { setSpotifyTokens } from "@/app/lib/spotifyCalls";
 
 const db = new PrismaClient
 
@@ -84,8 +84,8 @@ export async function GET(request: Request): Promise<Response> {
 }
 
 type SpotifyUser = {
-	id: string;
-	display_name: string;
-	href: string;
-	uri: string;
+	id: string
+	display_name: string
+	href: string
+	uri: string
 }

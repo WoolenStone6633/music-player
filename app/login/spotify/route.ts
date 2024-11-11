@@ -11,11 +11,11 @@ export async function GET(): Promise<Response> {
   )
 
   cookies().set('spotify_oauth_state', state, {
-    path: "/",
+    httpOnly: true,
+		sameSite: "lax",
 		secure: process.env.NODE_ENV === "production",
-		httpOnly: true,
 		maxAge: 60 * 10,
-		sameSite: "lax"
+		path: "/"
   })
 
 	return Response.redirect(url);

@@ -5,11 +5,11 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 type props = {
   imgUrl: string, 
   title: string, 
-  artist: string[] | string, 
+  artistStr: string, 
   songUri: string,
 }
 
-export default function SongCard( {imgUrl, title, artist, songUri}: props) {
+export default function SongCard( {imgUrl, title, artistStr, songUri}: props) {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const router = useRouter()
@@ -25,7 +25,7 @@ export default function SongCard( {imgUrl, title, artist, songUri}: props) {
       <img src={imgUrl}></img>
       <div className="my-auto ml-2 text-left">
         <p>{title}</p>
-        <p className="text-gray-500">{artist}</p>
+        <p className="text-gray-500">{artistStr}</p>
       </div>
     </div>
   )

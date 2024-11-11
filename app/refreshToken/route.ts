@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server"
-import { setSpotifyTokens } from "../lib/apiCalls"
+import { setSpotifyTokens } from "../lib/spotifyCalls"
 
 // sets the cookeis on the client side
 export async function POST(req: NextRequest) {
