@@ -11,9 +11,9 @@ export default async function Page({searchParams}: {searchParams?: {query?: stri
   const accessToken = await getSpotifyAccessToken()
   // when if is triggered, let the user know that their current session has expired and to login again
 	if (!user) {
-    return redirect("/")
+    redirect("/session_end")
 	} else if (!accessToken) {
-		return redirect("/")
+		redirect("/session_end")
   }
 
   const query = searchParams?.query
@@ -30,9 +30,7 @@ export default async function Page({searchParams}: {searchParams?: {query?: stri
       </div>
       <div>
         <StreamProcesser/>
-        <Suspense>
-          <SongPlayer accessToken={accessToken} trackUri={searchParams?.id}/>
-        </Suspense>
+        <SongPlayer accessToken={accessToken} trackUri={searchParams?.id}/>
       </div>
     </main>
   );
