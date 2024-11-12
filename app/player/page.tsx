@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import StreamProcesser from "../ui/streamProcesser"
-import { getSpotifyAccessToken, getSongs} from "../lib/spotifyCalls";
+import { getSpotifyAccessToken} from "../lib/spotifyCalls";
 import SongPlayer from "../ui/songPlayer";
 import { getCurrentSession } from "@/lib/session";
 import { redirect } from "next/navigation";
@@ -16,12 +16,12 @@ export default async function Page({searchParams}: {searchParams?: {query?: stri
 		redirect("/session_end")
   }
 
-  const query = searchParams?.query
+  const query = searchParams?.query || ''
 
   return (
     <main className="flex">
       <div className="max-w-fit">
-        <Suspense fallback={<TrackListSkeleton/>}>
+        <Suspense key={query} fallback={<TrackListSkeleton/>}>
           <TrackList query={query}/>
         </Suspense>
       </div>

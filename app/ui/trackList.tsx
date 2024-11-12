@@ -6,7 +6,7 @@ type props = {
 }
 
 export default async function TrackList({query}: props) {
-  const songList = query !== undefined ? await getSongs(query) : undefined
+  const songList = await getSongs(query)
  
    return (
     <>

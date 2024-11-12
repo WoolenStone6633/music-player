@@ -1,7 +1,9 @@
 'use client';
 
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { useDebouncedCallback } from 'use-debounce'
+import refreshAccessToken from '../lib/refreshAccessToken';
 
 export default function Search({ placeholder }: { placeholder: string }) {
   const searchParms = useSearchParams()
@@ -10,7 +12,6 @@ export default function Search({ placeholder }: { placeholder: string }) {
 
   const handleSearch = useDebouncedCallback( term => {
     const params = new URLSearchParams(searchParms)
-    // params.set('page', '1')
     if (term) {
       params.set('query', term)
     } else {
@@ -18,6 +19,13 @@ export default function Search({ placeholder }: { placeholder: string }) {
     }
     replace(`${pathname}?${params.toString()}`)
   }, 300);
+
+  useEffect(() => {
+    const baseUrl = window.location.origin
+    if (baseUrl) {
+      refreshAccessToken(baseUrl)
+    }
+  }, [searchParms])
   
   return (
     <div className="relative flex flex-1 flex-shrink-0">
