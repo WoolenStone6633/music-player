@@ -1,6 +1,7 @@
 import { deleteSessionTokenCookie, getCurrentSession, invalidateSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import { deleteSpotifyToken } from "../lib/spotifyCalls";
 
 export default async function SignOutButton() {
 	return (
@@ -21,7 +22,7 @@ async function logout(): Promise<ActionResult> {
 
 	await invalidateSession(session.id);
 	await deleteSessionTokenCookie()
-	cookies().delete('jws')
+	await deleteSpotifyToken()
 	cookies().delete('spotify_oauth_state')
 	return redirect("/");
 }

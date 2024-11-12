@@ -15,10 +15,10 @@ const spotifyApi = new SpotifyWebApi({
 })
 
 export const getSpotifyAccessToken = cache(
-  async (): Promise<string | null > => {
+  async (): Promise<string | undefined > => {
     const token = cookies().get('jws')?.value.split(',')[0]
     if (!token) {
-      return null
+      return undefined
     }
 
     return token

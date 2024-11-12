@@ -11,8 +11,7 @@ export default async function Page({searchParams}: {searchParams?: {query?: stri
   const accessToken = await getSpotifyAccessToken()
   // when if is triggered, let the user know that their current session has expired and to login again
 	if (!user) {
-    deleteSpotifyToken()
-		return redirect("/")
+    return redirect("/")
 	} else if (!accessToken) {
 		return redirect("/")
   }
