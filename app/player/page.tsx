@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import StreamProcesser from "../ui/streamProcesser"
 import SongCard from "../ui/songCard"
-import { getSpotifyAccessToken, getSongs, deleteSpotifyToken} from "../lib/spotifyCalls";
+import { getSpotifyAccessToken, getSongs} from "../lib/spotifyCalls";
 import SongPlayer from "../ui/songPlayer";
 import { getCurrentSession } from "@/lib/session";
 import { redirect } from "next/navigation";
@@ -30,7 +30,9 @@ export default async function Page({searchParams}: {searchParams?: {query?: stri
       </div>
       <div>
         <StreamProcesser/>
-        <SongPlayer accessToken={accessToken} trackUri={searchParams?.id}/>
+        <Suspense>
+          <SongPlayer accessToken={accessToken} trackUri={searchParams?.id}/>
+        </Suspense>
       </div>
     </main>
   );
