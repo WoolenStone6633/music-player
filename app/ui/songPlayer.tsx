@@ -1,8 +1,9 @@
 'use client'
 
 import { useEffect } from 'react'
-import SpotifyPlayer from 'react-spotify-web-playback'
+import SpotifyPlayer, { CallbackState } from 'react-spotify-web-playback'
 import refreshAccessToken from '../lib/refreshAccessToken'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 type props = {
   accessToken?: string, 
@@ -11,6 +12,19 @@ type props = {
 
 export default function SongPlayer ({ accessToken, trackUri}: props) {
   if (!accessToken) return null
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+  const router = useRouter()
+
+  const handleCallback = ({type}: CallbackState) => {
+    // checks to see if track being played has changed
+    if (type == 'track_update') {
+      // sets loading parm to true, meaning player has loaded and playing the song
+      const params = new URLSearchParams(searchParams.toString())
+      params.set('lo', 't')
+      router.replace(`${pathname}?${params}`)
+    }
+  }
 
   // refreshes the spotify access token
   useEffect(() => {
@@ -24,5 +38,7 @@ export default function SongPlayer ({ accessToken, trackUri}: props) {
     token={accessToken}
     play={true}
     uris={trackUri ? [trackUri] : []}
+    initialVolume={0.5}
+    callback={handleCallback}
   />
 }
