@@ -43,14 +43,20 @@ export async function createSession(token: string, userId: string): Promise<Sess
 
 export async function validateSessionToken(token: string): Promise<SessionValidationResult> {
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-	const result = await prisma.session.findUnique({
-		where: {
-			id: sessionId
-		},
-		include: {
-			user: true
-		}
-	});
+	let result
+	try {
+		result = await prisma.session.findUnique({
+			where: {
+				id: sessionId
+			},
+			include: {
+				user: true
+			}
+		});
+	} catch (e) {
+		console.log('There was an error finding the unique user while validating the session token: ', e)
+		result = null
+	}
 	if (result === null) {
 		return { session: null, user: null };
 	}
