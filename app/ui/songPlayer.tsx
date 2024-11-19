@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import SpotifyPlayer, { CallbackState } from 'react-spotify-web-playback'
+import SpotifyWebPlayer, { CallbackState } from 'react-spotify-web-playback'
 import refreshAccessToken from '../lib/refreshAccessToken'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
@@ -34,7 +34,7 @@ export default function SongPlayer ({ accessToken, trackUri}: props) {
     }
   }, [trackUri])
 
-  return <SpotifyPlayer
+  return <SpotifyWebPlayer
     token={accessToken}
     play={true}
     uris={trackUri ? [trackUri] : []}

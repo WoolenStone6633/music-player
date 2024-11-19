@@ -10,14 +10,14 @@ type props = {
   songUri: string,
 }
 
-export default function SongCard( {imgUrl, title, artistStr, songUri}: props) {
+export default function SongCard({imgUrl, title, artistStr, songUri}: props) {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const router = useRouter()
   const background = useRef<HTMLDivElement>(null)
 
   const clickHandler = () => {
-    // starts the loading animation
+    // starts the loading animation for single card
     if (background.current && searchParams.get('id') != songUri) {
       background.current.classList.add('animate-pulse')
     }
@@ -29,9 +29,9 @@ export default function SongCard( {imgUrl, title, artistStr, songUri}: props) {
     router.replace(`${pathname}?${params}`)
   }
 
-  // stops the animatino when the song player sets the search param lo to a value of t (loading -> true)
+  // stops all the loading animations when the song player sets the search param lo to a value of t (loading -> true)
   useEffect(() => {
-    if (background.current && searchParams.get('lo') == 't' && searchParams.get('id') == songUri) {
+    if (background.current && searchParams.get('lo') == 't') {
       background.current.classList.remove('animate-pulse')
     }
   }, [searchParams])
