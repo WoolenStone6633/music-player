@@ -39,6 +39,7 @@ export default function LoginButton({text}: props) {
   }
 
   return (
-    <a href="/login/spotify" ref={button} onClick={handleClick}>{text}</a>
+    <a className='text-2xl inline-block py-2 px-4 rounded-xl bg-green-500' 
+    href="/login/spotify" ref={button} onClick={handleClick}>{text}</a>
   );
 }
