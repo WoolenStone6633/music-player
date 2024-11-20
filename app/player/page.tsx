@@ -19,7 +19,7 @@ export default async function Page({searchParams}: {searchParams?: {query?: stri
   const query = searchParams?.query || ''
 
   return (
-    <main className="flex">
+    <>
       <div className="max-w-fit">
         <Suspense key={query} fallback={<TrackListSkeleton/>}>
           <TrackList query={query}/>
@@ -29,6 +29,6 @@ export default async function Page({searchParams}: {searchParams?: {query?: stri
         <StreamProcesser/>
         <SongPlayer accessToken={accessToken} trackUri={searchParams?.id}/>
       </div>
-    </main>
+    </>
   );
 }
