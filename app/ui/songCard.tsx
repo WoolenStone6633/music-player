@@ -25,10 +25,10 @@ export default function SongCard({imgUrl, title, artistStr, songUri}: props) {
       gsap.fromTo(bar.current, {
         x: -(bar.current.clientWidth + 10),
       }, {
-        duration: 1.5,
+        duration: 1.2,
         x: (background.current.clientWidth + 10) /*- bar.current?.clientWidth*/,
         ease: 'none',
-        repeat: -1,
+        repeat: 10,
       })
     }
 
@@ -49,14 +49,14 @@ export default function SongCard({imgUrl, title, artistStr, songUri}: props) {
             bar.current.classList.add('hidden')
             bar.current.classList.remove('animate-fade-out')
           }
-        }, 80)
+        }, 120)
       }
     }
   }, [searchParams])
 
   return (
     <div ref={background} className="relative flex contain-paint mb-4 border-2 pr-2 rounded-2xl bg-gray-200 transition ease-out duration-100 hover:bg-gray-300 hover:border-gray-300" style={{ cursor: 'pointer' }} onClick={clickHandler}>
-      <div ref={bar} className="hidden absolute h-full w-60 rounded-3x1 blur-md overflow- bg-gray-50 opacity-50"/>
+      <div ref={bar} className="hidden absolute h-full w-72 rounded-3x1 blur-md overflow- bg-gray-50 opacity-50"/>
       <img src={imgUrl}></img>
       <div className="my-auto ml-2 text-left">
         <p>{title}</p>
