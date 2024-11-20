@@ -51,6 +51,12 @@ export default function SongCard({imgUrl, title, artistStr, songUri}: props) {
           }
         }, 120)
       }
+    } else if (searchParams.get('lo') == 'f' && bar.current) {
+      if (searchParams.get('id') == songUri && bar.current.classList.contains('hidden')) {
+        const params = new URLSearchParams(searchParams.toString())
+        params.set('lo', 't')
+        router.replace(`${pathname}?${params}`)
+      }
     }
   }, [searchParams])
 
