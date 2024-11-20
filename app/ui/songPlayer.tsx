@@ -38,8 +38,8 @@ export default function SongPlayer ({ accessToken, trackUri}: props) {
     token={accessToken}
     play={true}
     uris={trackUri ? [trackUri] : []}
-    // initialVolume={0.5}
-    initialVolume={0.01}
+    initialVolume={0.5}
+    // initialVolume={0.01}
     callback={handleCallback}
   />
 }
