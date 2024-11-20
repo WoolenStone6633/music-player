@@ -12,8 +12,8 @@ export default async function Layout({ children }: { children: React.ReactNode }
         </Suspense>
         <SignOutButton/>
       </header>
-      <main className="mt-16">
-        <div className="flex-grow p-12">{children}</div>
+      <main className="mt-28 mb-4">
+        {children}
       </main>
     </>
   );

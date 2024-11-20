@@ -6,7 +6,7 @@ import { deleteSpotifyToken } from "../lib/spotifyCalls";
 export default async function SignOutButton() {
 	return (
 		<form action={logout}>
-			<button className="place-self-end text-lg py-2 px-4 mr-6 rounded-lg bg-red-400">Sign out</button>
+			<button className="place-self-end text-lg py-2 px-4 mr-6 rounded-lg bg-red-300">Sign out</button>
 		</form>
 	);
 }

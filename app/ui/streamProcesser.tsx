@@ -61,9 +61,11 @@ export default  function streamProcesser() {
   return (
       <>
         <ArtGraphic analyser={analyser.current} bufferLength={bufferLength.current} dataArray={dataArray.current} audioStream={audioStream} stopStream={stopStream}/>
-        {!sharingStream ? 
-        <button ref={streamOptionRef} onClick={() => startStream()}>Start Streaming</button> 
-        : <button ref={streamOptionRef} onClick={() => stopStream()}>Stop Streaming</button> }
+        <div className="mt-2 mb-1">
+          {!sharingStream ? 
+          <button ref={streamOptionRef} onClick={() => startStream()}>Start Streaming</button> 
+          : <button ref={streamOptionRef} onClick={() => stopStream()}>Stop Streaming</button> }
+        </div>
       </>
   )
 }

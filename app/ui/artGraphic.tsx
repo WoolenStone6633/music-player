@@ -58,5 +58,6 @@ export default  function ArtGraphic({analyser, bufferLength, dataArray, audioStr
     return () => cancelAnimationFrame(animationFrameId)
   }, [draw])
 
-  return <canvas ref={canRef} width={300} height={500}/>
+  return <canvas ref={canRef} width={588} height={463} 
+  className="border-2 border-black rounded-lg"/>
 }
