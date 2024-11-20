@@ -27,14 +27,14 @@ export default function LoginButton({text}: props) {
         text.chars[9].classList.add('period3')
       }
 
-      const tl = gsap.timeline({repeat: -1, defaults: {duration: 0.2}, repeatDelay: -0.1})
-      const tweenTime = '<0.1'
-      tl.to('.period1', { y: -5}, tweenTime)
-      tl.to('.period2', { y: -5}, tweenTime)
-      tl.to('.period3', { y: -5}, tweenTime)
-      tl.to('.period1', { y: 0}, tweenTime)
-      tl.to('.period2', { y: 0}, tweenTime)
-      tl.to('.period3', { y: 0}, tweenTime)
+      const tl = gsap.timeline({ repeat: -1, defaults: {duration: 0.4}, repeatDelay: 0.25 })
+      const tweenTime = '<0.23'
+      tl.to('.period1', { y: -5 }, tweenTime)
+      tl.to('.period2', { y: -5 }, tweenTime)
+      tl.to('.period3', { y: -5 }, tweenTime)
+      tl.to('.period1', { y: 0 }, tweenTime)
+      tl.to('.period2', { y: 0 }, tweenTime)
+      tl.to('.period3', { y: 0 }, tweenTime)
     }
   }
 
