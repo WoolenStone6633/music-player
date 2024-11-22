@@ -60,4 +60,6 @@ export default  function ArtGraphic({analyser, bufferLength, dataArray, audioStr
 
   return <canvas ref={canRef} width={588} height={463} 
   className="border-2 border-black rounded-lg"/>
+  // return <canvas ref={canRef} width={(window.innerWidth)/3} height={window.innerHeight/3} 
+  // className="border-2 border-black rounded-lg"/>
 }

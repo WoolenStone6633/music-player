@@ -26,7 +26,7 @@ export default async function Page({searchParams}: {searchParams?: {query?: stri
         </Suspense>
       </div>
       <div className="w-[592px] opacity-0"/>
-      <div className="fixed flex flex-col mt-20 left-[55%]">
+      <div className="fixed flex flex-col left-[55%]">
         <p className="text-lg mx-auto mb-6 underline underline-offset-8">Start streaming to enjoy the visualizer.</p>
         <StreamProcesser/>
         <SongPlayer accessToken={accessToken} trackUri={searchParams?.id}/>
