@@ -39,12 +39,16 @@ export default function LoginButton({text}: props) {
   }
 
   useEffect(() => {
-    if (button.current) {
-      button.current.text = text
-      button.current.style.pointerEvents = 'auto'
-      button.current.style.cursor = 'pointer'
-    }
-  })
+    window.addEventListener('popstate', (e) => {
+      console.log(e)
+      if (button.current) {
+        button.current.text = text
+        button.current.style.pointerEvents = 'auto'
+        button.current.style.cursor = 'pointer'
+      }
+    })
+    return () => window.removeEventListener('popstate', () => {})
+  }, [])
 
   return (
     <a className='text-2xl inline-block py-2 px-4 rounded-xl bg-green-500' 
