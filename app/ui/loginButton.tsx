@@ -44,7 +44,7 @@ export default function LoginButton({text}: props) {
       button.current.style.pointerEvents = 'auto'
       button.current.style.cursor = 'pointer'
     }
-  }, [])
+  })
 
   return (
     <a className='text-2xl inline-block py-2 px-4 rounded-xl bg-green-500' 
