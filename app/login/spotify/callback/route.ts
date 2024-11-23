@@ -27,7 +27,7 @@ export async function GET(request: Request): Promise<Response> {
 				Authorization: `Bearer ${tokens.accessToken}`
 			}
 		})
-		console.log(spotifyUserResponse, spotifyUserResponse.json())
+		console.log(spotifyUserResponse, await spotifyUserResponse.json())
 		const spotifyUser: SpotifyUser = await spotifyUserResponse.json(); // problematic call for Lenzi
 		const spotifyUserId = spotifyUser.id
 
