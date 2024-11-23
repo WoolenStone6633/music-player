@@ -21,17 +21,15 @@ export async function GET(request: Request): Promise<Response> {
 	try {
 		const tokens = await spotifyAuth.validateAuthorizationCode(code)
 		setSpotifyTokens(tokens.accessToken, tokens.refreshToken)
-		console.log('tokens added')
 
 		const spotifyUserResponse = await fetch("https://api.spotify.com/v1/me", {
 			headers: {
 				Authorization: `Bearer ${tokens.accessToken}`
 			}
 		})
-		console.log('user accessed')
-		const spotifyUser: SpotifyUser = await spotifyUserResponse.json();
+		console.log(spotifyUserResponse, spotifyUserResponse.json())
+		const spotifyUser: SpotifyUser = await spotifyUserResponse.json(); // problematic call for Lenzi
 		const spotifyUserId = spotifyUser.id
-		console.log('Spotify product: ', spotifyUser.product)
 
     const existingUser = await db.user.findUnique({
 			where: {
