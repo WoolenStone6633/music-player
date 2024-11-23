@@ -19,8 +19,6 @@ model User {
   id            String    @id
   spotify_id    String    @unique
   display_name  String
-	href          String
-	uri           String
   sesstions     Session[]
 }
 

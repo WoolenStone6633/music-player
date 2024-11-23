@@ -53,8 +53,6 @@ export async function GET(request: Request): Promise<Response> {
 				id: spotifyUserId, 
 				spotify_id: spotifyUser.id,
 				display_name: spotifyUser.display_name,
-				href: spotifyUser.href,
-				uri: spotifyUser.uri,
 			}
 		})
 
@@ -86,6 +84,5 @@ export async function GET(request: Request): Promise<Response> {
 type SpotifyUser = {
 	id: string
 	display_name: string
-	href: string
-	uri: string
+	product: string
 }
