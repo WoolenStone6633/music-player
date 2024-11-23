@@ -21,12 +21,14 @@ export async function GET(request: Request): Promise<Response> {
 	try {
 		const tokens = await spotifyAuth.validateAuthorizationCode(code)
 		setSpotifyTokens(tokens.accessToken, tokens.refreshToken)
-		
+		console.log('tokens added')
+
 		const spotifyUserResponse = await fetch("https://api.spotify.com/v1/me", {
 			headers: {
 				Authorization: `Bearer ${tokens.accessToken}`
 			}
 		})
+		console.log('user accessed')
 		const spotifyUser: SpotifyUser = await spotifyUserResponse.json();
 		const spotifyUserId = spotifyUser.id
 		console.log('Spotify product: ', spotifyUser.product)
