@@ -29,6 +29,7 @@ export async function GET(request: Request): Promise<Response> {
 		})
 		const spotifyUser: SpotifyUser = await spotifyUserResponse.json();
 		const spotifyUserId = spotifyUser.id
+		console.log('Spotify product: ', spotifyUser.product)
 
     const existingUser = await db.user.findUnique({
 			where: {
