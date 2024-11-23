@@ -20,7 +20,7 @@ export async function GET(request: Request): Promise<Response> {
 
 	try {
 		const tokens = await spotifyAuth.validateAuthorizationCode(code)
-		setSpotifyTokens(tokens.accessToken, tokens.refreshToken)
+		// setSpotifyTokens(tokens.accessToken, tokens.refreshToken)
 
 		const response = await fetch("https://api.spotify.com/v1/search?q=remaster%2520track%3ADoxy%2520artist%3AMiles%2520Davis&type=album", {
 			headers: {
