@@ -22,23 +22,13 @@ export async function GET(request: Request): Promise<Response> {
 		const tokens = await spotifyAuth.validateAuthorizationCode(code)
 		setSpotifyTokens(tokens.accessToken, tokens.refreshToken)
 
-		const response = await fetch("https://api.spotify.com/v1/search?q=remaster%2520track%3ADoxy%2520artist%3AMiles%2520Davis&type=album", {
-			headers: {
-				Authorization: `Bearer asdklfjfhlkajhwekljhdsf`
-			}
-		})
-
-		console.log(response)
-
 		const spotifyUserResponse = await fetch("https://api.spotify.com/v1/me", {
 			headers: {
 				Authorization: `Bearer ${tokens.accessToken}`
 			}
 		})
-		console.log(spotifyUserResponse)
-		const spotifyUser: SpotifyUser = await spotifyUserResponse.json(); // problematic call for Lenzi
+		const spotifyUser: SpotifyUser = await spotifyUserResponse.json();
 		const spotifyUserId = spotifyUser.id
-
     const existingUser = await db.user.findUnique({
 			where: {
 				spotify_id: spotifyUser.id

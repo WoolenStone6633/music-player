@@ -1,7 +1,7 @@
 'use client'
 
 import gsap from "gsap";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import SplitType from "split-type";
 
 type props = {
@@ -37,18 +37,6 @@ export default function LoginButton({text}: props) {
       tl.to('.period3', { y: 0 }, tweenTime)
     }
   }
-
-  useEffect(() => {
-    window.addEventListener('hashchange', (e) => {
-      console.log(e)
-      if (button.current) {
-        button.current.text = text
-        button.current.style.pointerEvents = 'auto'
-        button.current.style.cursor = 'pointer'
-      }
-    })
-    return () => window.removeEventListener('hashchange', () => {})
-  }, [])
 
   return (
     <a className='text-2xl inline-block py-2 px-4 rounded-xl bg-green-500' 
