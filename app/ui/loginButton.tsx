@@ -39,7 +39,7 @@ export default function LoginButton({text}: props) {
   }
 
   useEffect(() => {
-    window.addEventListener('popstate', (e) => {
+    window.addEventListener('hashchange', (e) => {
       console.log(e)
       if (button.current) {
         button.current.text = text
@@ -47,7 +47,7 @@ export default function LoginButton({text}: props) {
         button.current.style.cursor = 'pointer'
       }
     })
-    return () => window.removeEventListener('popstate', () => {})
+    return () => window.removeEventListener('hashchange', () => {})
   }, [])
 
   return (
