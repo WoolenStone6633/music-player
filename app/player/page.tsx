@@ -5,7 +5,7 @@ import SongPlayer from "../ui/songPlayer";
 import { getCurrentSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { TrackListSkeleton } from "../ui/skeletons";
-import TrackList from "../ui/trackList";
+import SpotifyTrackList from "../ui/spotifyTrackList";
 
 export default async function Page({searchParams}: {searchParams?: {query?: string, page?: string, id?: string}}) {
   const { user } = await getCurrentSession()
@@ -22,7 +22,7 @@ export default async function Page({searchParams}: {searchParams?: {query?: stri
     <div className="relative flex justify-center gap-28">
       <div className="w-[634px]">
         <Suspense key={query} fallback={<TrackListSkeleton/>}>
-          <TrackList query={query}/>
+          <SpotifyTrackList query={query}/>
         </Suspense>
       </div>
       <div className="w-[592px] opacity-0"/>
