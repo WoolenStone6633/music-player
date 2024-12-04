@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import { TrackListSkeleton } from "../ui/skeletons";
 import SpotifyTrackList from "../ui/spotifyTrackList";
 
-export default async function Page({searchParams}: {searchParams?: {query?: string, page?: string, id?: string}}) {
+export default async function Page({searchParams}: {searchParams?: {query?: string, id?: string}}) {
   const { user } = await getCurrentSession()
   const accessToken = await getSpotifyAccessToken()
 	if (!user) {
