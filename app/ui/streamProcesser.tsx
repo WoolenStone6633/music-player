@@ -43,7 +43,7 @@ export default  function streamProcesser() {
         const source = audioCtx.createMediaStreamSource(stream)
         analyser.current = audioCtx.createAnalyser()
         source.connect(analyser.current)
-        analyser.current.fftSize = 128
+        analyser.current.fftSize = 256
         bufferLength.current = analyser.current.frequencyBinCount
         dataArray.current = new Uint8Array(bufferLength.current)
       })
