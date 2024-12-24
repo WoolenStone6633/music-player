@@ -48,6 +48,11 @@ export default  function ArtGraphic({analyser, bufferLength, dataArray, audioStr
         let rotation = 90
         for (let j = 0; j < 5; j++){
           barHeight = dataArray[i]
+          // change the speed that the bar decays
+          // if (dataArray[i] > barHeight)
+          //   barHeight = dataArray[i]
+          // else
+          //   barHeight -= barHeight * 0.5
           ctx.save()
           ctx.translate(canvas.width/2, canvas.height/2)
           ctx.rotate((i * 34.5 + rotation) * Math.PI / 180)
