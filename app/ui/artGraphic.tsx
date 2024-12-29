@@ -19,13 +19,37 @@ export default  function ArtGraphic({analyser, bufferLength, dataArray, audioStr
     let bar = 0
     let barHeight: number
 
-    for (let i = 0; i < bufferLength; i++){ 
-      // base bar graph for frequencies
-      // barHeight = dataArray[i]
-      // ctx.fillStyle = 'black'
-      // ctx.fillRect(x , canvas.height - barHeight, barWidth, barHeight)
-      // bar += barWidth
+    // background graph
+    barWidth = canvas.width/15
+    for (let i = 2; i < 17; i++){ 
+      barHeight = dataArray[i] * 1.5
+      const barGrad = ctx.createLinearGradient(0, canvas.height - 50, 0, 50)
+      barGrad.addColorStop(0, "#2C0E13")
+      barGrad.addColorStop(0.45, "#9F4750")
+      barGrad.addColorStop(0.76, "#DF6470")
+      barGrad.addColorStop(1, "#EF6B78")
+      ctx.fillStyle = barGrad;
+      ctx.fillRect(bar, canvas.height - barHeight - 50, barWidth, barHeight + 50)
+      bar += barWidth
+    }
 
+    bar = 0
+    for (let i = 2; i < 16; i++){ 
+      ctx.fillStyle = '#FDDDF2'
+      ctx.fillRect(bar + barWidth + 1, 0, 1, canvas.height)
+      bar += barWidth
+    }
+
+    // base bar graph for frequencies
+    // for (let i = 0; i < bufferLength; i++){ 
+    //     barHeight = dataArray[i]
+    //     ctx.fillStyle = 'black'
+    //     ctx.fillRect(bar , canvas.height - barHeight, barWidth, barHeight)
+    //     bar += barWidth - 4
+    // }
+
+    barWidth = canvas.width/bufferLength + 4
+    for (let i = 0; i < bufferLength; i++){ 
       // inner range for circle
       if (i >= 50 && i <= 60) {
         let rotation = 90
@@ -34,7 +58,7 @@ export default  function ArtGraphic({analyser, bufferLength, dataArray, audioStr
           ctx.save()
           ctx.translate(canvas.width/2, canvas.height/2)
           ctx.rotate((i * 34.5 + rotation) * Math.PI / 180)
-          const hue = i * 10
+          const hue = i * 8 + 130
           ctx.fillStyle = `hsl(${hue},100%,${barHeight/3}%`
           ctx.fillRect(-1 * barWidth/2, -1 * barWidth/2, barWidth, barHeight)
           x += barWidth
@@ -48,22 +72,19 @@ export default  function ArtGraphic({analyser, bufferLength, dataArray, audioStr
         let rotation = 90
         for (let j = 0; j < 5; j++){
           barHeight = dataArray[i]
-          // change the speed that the bar decays
-          // if (dataArray[i] > barHeight)
-          //   barHeight = dataArray[i]
-          // else
-          //   barHeight -= barHeight * 0.5
           ctx.save()
           ctx.translate(canvas.width/2, canvas.height/2)
           ctx.rotate((i * 34.5 + rotation) * Math.PI / 180)
-          const hue = i * 5
+          const hue = i * 5 + 70
           ctx.fillStyle = `hsl(${hue},100%,${barHeight/3}%`
-          ctx.fillRect(-1 * barWidth/2, -1 * barWidth/2, barWidth, barHeight)
+          ctx.fillRect(-1 * barWidth/2, -1 * barWidth/2, barWidth, barHeight + 5)
           x += barWidth
           ctx.restore()
           rotation += 90
         }
       }
+
+      // base circle
       // barHeight = dataArray[i]
       // ctx.save()
       // ctx.translate(canvas.width/2, canvas.height/2)
@@ -82,9 +103,11 @@ export default  function ArtGraphic({analyser, bufferLength, dataArray, audioStr
     let animationFrameId: number
 
     if (canvas) {
+      if (!ctx) return
+      canvas.style.background = '#EF6B78'
       const animate = () => {
         if (!ctx) return
-        const barWidth = canvas.width/bufferLength + 4
+        let barWidth = 0
 
         // setting up and draws frame
         if (analyser && bufferLength && dataArray) {
