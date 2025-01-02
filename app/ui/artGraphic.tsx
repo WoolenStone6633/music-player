@@ -12,6 +12,7 @@ type props = {
 
 export default  function ArtGraphic({analyser, bufferLength, dataArray, audioStream, stopStream}: props) {
   const canRef = useRef<HTMLCanvasElement>(null)
+  const backgroundColor = '#FC7472'
 
   // animation frame
   const draw = (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, bufferLength: number, barWidth: number, dataArray: Uint8Array) => {
@@ -26,8 +27,8 @@ export default  function ArtGraphic({analyser, bufferLength, dataArray, audioStr
       const barGrad = ctx.createLinearGradient(0, canvas.height - 50, 0, 50)
       barGrad.addColorStop(0, "#2C0E13")
       barGrad.addColorStop(0.45, "#9F4750")
-      barGrad.addColorStop(0.76, "#DF6470")
-      barGrad.addColorStop(1, "#EF6B78")
+      barGrad.addColorStop(0.76, "#E26866")
+      barGrad.addColorStop(1, backgroundColor)
       ctx.fillStyle = barGrad;
       ctx.fillRect(bar, canvas.height - barHeight - 50, barWidth, barHeight + 50)
       bar += barWidth
@@ -104,7 +105,7 @@ export default  function ArtGraphic({analyser, bufferLength, dataArray, audioStr
 
     if (canvas) {
       if (!ctx) return
-      canvas.style.background = '#EF6B78'
+      canvas.style.background = backgroundColor
       const animate = () => {
         if (!ctx) return
         let barWidth = 0
