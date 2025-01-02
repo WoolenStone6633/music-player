@@ -75,7 +75,7 @@ export default  function ArtGraphic({analyser, bufferLength, dataArray, audioStr
           ctx.save()
           ctx.translate(canvas.width/2, canvas.height/2)
           ctx.rotate((i * 34.5 + rotation) * Math.PI / 180)
-          const hue = i * 5 + 70
+          const hue = i * 5 + 24
           ctx.fillStyle = `hsl(${hue},100%,${barHeight/3}%`
           ctx.fillRect(-1 * barWidth/2, -1 * barWidth/2, barWidth, barHeight + 5)
           x += barWidth
